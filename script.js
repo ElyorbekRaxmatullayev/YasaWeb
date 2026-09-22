@@ -122,7 +122,7 @@ $('#form').addEventListener('submit', async e => {
     });
     const data = await r.json().catch(() => ({}));
     if (!r.ok || !data.ok) throw new Error(data.error || L.fail);
-    f.reset(); say(L.ok);
+    f.reset(); say(L.ok); goal('lead_sent');
   } catch (err) {
     say(err instanceof TypeError ? L.offline : err.message, true);
   } finally { btn.disabled = false; }
@@ -193,3 +193,15 @@ document.fonts?.ready.then(() => { setupToggles(); updateCount(); });
   document.addEventListener('visibilitychange', () => { hidden = document.hidden; });
   resize(); requestAnimationFrame(frame);
 })();
+
+// Yandex.Metrika goals (no-op when the counter is not loaded)
+const goal = name => { try { window.ym && window.YM_ID && ym(window.YM_ID, 'reachGoal', name); } catch (e) {} };
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href]');
+  if (!a) return;
+  const href = a.getAttribute('href');
+  if (href.startsWith('tel:')) goal('click_phone');
+  else if (href.startsWith('mailto:')) goal('click_email');
+  else if (href.includes('t.me/')) goal('click_telegram');
+  else if (href.includes('instagram.com/')) goal('click_instagram');
+});

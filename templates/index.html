@@ -61,8 +61,24 @@
   <link rel="stylesheet" href="/style.css" />
 
   <script type="application/ld+json">{{ schema|tojson }}</script>
+{%- if metrika_id %}
+  <!-- Yandex.Metrika counter -->
+  <script>
+    (function(m,e,t,r,i,k,a){
+      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+    ym({{ metrika_id }}, 'init', {clickmap:true, referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+  </script>
+  <!-- /Yandex.Metrika counter -->
+{%- endif %}
 </head>
 <body>
+{%- if metrika_id %}
+  <noscript><div><img src="https://mc.yandex.ru/watch/{{ metrika_id }}" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+{%- endif %}
   <canvas id="bgfx" aria-hidden="true"></canvas>
 
   <header class="topbar" id="topbar">
@@ -261,7 +277,7 @@
     <p class="copy container">{{ t.footer.text }}</p>
   </footer>
 
-  <script>window.I18N={{ js|tojson }};window.LANG={{ lang|tojson }};</script>
+  <script>window.I18N={{ js|tojson }};window.LANG={{ lang|tojson }};window.YM_ID={{ metrika_id|int|tojson }};</script>
   <script src="/script.js" defer></script>
 </body>
 </html>

@@ -37,6 +37,7 @@ SITE = os.environ.get("SITE_URL", "https://yasa.uz").rstrip("/")
 GOOGLE_VERIFICATION = os.environ.get("GOOGLE_SITE_VERIFICATION", "")
 YANDEX_VERIFICATION = os.environ.get("YANDEX_VERIFICATION", "")
 BING_VERIFICATION = os.environ.get("BING_VERIFICATION", "")
+METRIKA_ID = os.environ.get("YANDEX_METRIKA_ID", "61621438").strip()
 
 app = Flask(__name__, static_folder=None)
 app.jinja_env.globals["zip"] = zip
@@ -151,7 +152,7 @@ def render_page(lang: str):
         tg_path=TG_PATH, ig_path=IG_PATH,
         partners_meta=i18n.PARTNERS, services_meta=i18n.SERVICES_META, prices=i18n.SERVICE_PRICES,
         stack=i18n.STACK, why_cls=i18n.WHY_CLS, step_cls=i18n.STEP_CLS,
-        google_verification=GOOGLE_VERIFICATION, yandex_verification=YANDEX_VERIFICATION, bing_verification=BING_VERIFICATION,
+        google_verification=GOOGLE_VERIFICATION, yandex_verification=YANDEX_VERIFICATION, bing_verification=BING_VERIFICATION, metrika_id=METRIKA_ID,
     ), mimetype="text/html")
     resp.headers["Content-Language"] = lang
     resp.headers["Cache-Control"] = "public, max-age=300"
